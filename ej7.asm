@@ -240,7 +240,7 @@ copiaAcadena4:
 	mov edi, 0
 	mov esi, matriz
 	mov ebx, 0
-cicloBusquedaMayor:
+cicloDiagonal:
 
 	mov eax, ebx
 	mov [numero], eax
@@ -258,7 +258,7 @@ cicloBusquedaMayor:
     add esi, 4
 	inc edi
 	cmp edi, [numero2]
-	jl cicloBusquedaMayor
+	jl cicloDiagonal
 
 	call mostrarSaltoDeLinea
 
@@ -278,7 +278,7 @@ numeroMayor:
 
 	inc edi
 	cmp edi, [numero2]
-	jl cicloBusquedaMayor
+	jl cicloDiagonal
 
 	call mostrarSaltoDeLinea
 

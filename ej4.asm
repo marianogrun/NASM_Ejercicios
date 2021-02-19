@@ -40,6 +40,10 @@ numero:
 numero2:
         resd    1                ; 1 dword (4 bytes)
 
+numeroAux:
+        resd    1                ; 1 dword (4 bytes)
+
+
 cadena:
         resb    0x0100           ; 256 bytes
 
@@ -63,11 +67,14 @@ fmtChar:
 fmtLF:
         db    0xA, 0             ; SALTO DE LINEA (LF)
 
+nStr:
+	db    "Ingrese cadena a analizar: ", 0		 ; Cadena "Ingrese cadena"
+
 palindromo:
-	db    "Es Palindromo", 0	 ;  Cadena "Biciesto:"
+	db    "Es Palindromo", 0	 ;  Cadena "Palindromo:"
 
 noPalindromo:
-	db    "No es Palindromo", 0	 ;  Cadena "No Biciesto:"
+	db    "No es Palindromo", 0	 ;  Cadena "No Palindromo:"
 
 
 
@@ -126,25 +133,40 @@ main:                            ; PUNTO DE INICIO DEL PROGRAMA
         mov esi, 0
         mov ebx, 0
         mov ecx, 0
+
+
 medirCadena:
         mov al,[edi + cadena]
         cmp al,0
-        je comparar
+        je dividirPor2
 
         inc edi
         jmp medirCadena
+
+dividirPor2:
+        mov eax, edi
+        mov ebx, 2
+        xor edx, edx
+        div ebx
+        mov [numeroAux], eax
+        cmp edx, 0
+        je comparar
 comparar:
-        mov al, [ebx + cadena]
-        cmp al,0
+        mov edx, 0
+
+        cmp esi,[numeroAux]
         je esPalindromo
+
+        mov al, [cadena + esi]
         mov [numero], al
         mov edx,[numero]
-        mov bh, [edi - 1 + cadena]
+
+        mov bh, [cadena + edi - 1]
         mov [numero2], bh
         mov eax , [numero2]
 
 
-        inc ebx
+        inc esi
         dec edi
 
         cmp edx, eax
